@@ -23,25 +23,19 @@
 		  </div>
 		</div>
 		@if(isset($data))
-		<div class="card">
-			<h3 class="card-header">Film</h3>
-			  <div class="card-block">
-			    <table class="table">
-			    	<thead>
-			    		<tr><th>Name</th>
-			    		<th>URL</th>
-			    	</tr></thead>
-			    	<tbody>
-			    		@foreach($data as $key => $value)
-			    		<tr>
-			    			<td><h4 class="card-title">{{$value[$key]['tieude']}}</h4></td>
-			    			<td><a href="{{url('/')}}{{$value[$key]['url']}}" class="btn btn-primary">Go</a></td>
-			    		</tr>
-			    		@endforeach
-			    	</tbody>
-			    </table>    
-			    
+		<div class="row">
+		@foreach($data as $key => $value)
+			  <div class="col-sm-3">
+			    <div class="card">
+			     <img class="card-img-top" src="{{$value[$key]['img']}}" alt="Card image cap">
+			     <div class="card-block">
+			        <h3 class="card-title">{{$value[$key]['tieude']}}</h3>
+			        <p class="card-text">{{$value[$key]['label']}}</p>
+			        <a href="{{url('/')}}{{$value[$key]['url']}}" class="btn btn-primary">Xem phim</a>
+			     </div>
+			    </div>
 			  </div>
+		@endforeach
 		</div>
 		@endif
 @endsection

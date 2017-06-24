@@ -49,15 +49,15 @@ class HomeController extends Controller
            $Client =  new Client(); // khởi tạo client
            $crawler  = $Client->request("GET","http://bilutv.com/tim-kiem.html?q=".$q); // lấy thông tin search theo từ khóa 
                        
-           $nodeValues=  $crawler->filter("div.block-film ul.list-film li a")->each(function ( $node, $i)
+           $nodeValues=  $crawler->filter("div.block-film ul.list-film li ")->each(function ( $node, $i)
             {
                   
                   $arr[$i] = [
-                     "tieude"    => $node->attr('title'),
-                      "url"       => $node->attr('href')
+                     "tieude"    => $node->filter("a")->attr('title'),
+                      "url"      => $node->filter("a")->attr('href'),
+                      "img"      => $node->filter("img")->attr('data-original'),
+                      'label'    => $node->filter("label")->text()
                     ];
-                  
-                 //print $node->attr('title')."\n";
                 return   $arr;
                });
            $data['data'] = $nodeValues;
