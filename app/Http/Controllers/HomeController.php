@@ -51,13 +51,15 @@ class HomeController extends Controller
                        
            $nodeValues=  $crawler->filter("div.block-film ul.list-film li ")->each(function ( $node, $i)
             {
-                  
-                  $arr[$i] = [
+                   
+                                     
+                    $arr[$i] = [
                      "tieude"    => $node->filter("a")->attr('title'),
                       "url"      => $node->filter("a")->attr('href'),
-                      "img"      => $node->filter("img")->attr('data-original'),
+                      "img"      => $node->filter("img")->attr('data-original'),                      
                       'label'    => $node->filter("label")->text()
                     ];
+
                 return   $arr;
                });
            $data['data'] = $nodeValues;

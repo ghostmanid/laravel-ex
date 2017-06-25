@@ -43,11 +43,12 @@
 		     
 		 }, 0);
 		
-		
 
 	});
 
+
 </script>
 <script src="http://vjs.zencdn.net/6.1.0/video.js"></script> 
+
 @endif
 @endsection
