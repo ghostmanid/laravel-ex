@@ -38,32 +38,32 @@
 			    </div>
 			  </div>
 			  <script type="text/javascript">
-			    var link = "{{$value[$key]['img']}}";
-			    var idLoad = "#img{{$key}}";
+			    $(document).ready(function(){
+			    
+			     var link = "{{$value[$key]['img']}}";
+			   // var idLoad = "#img{{$key}}";
+			    //console.log(idLoad);
+			    
 			  	var img = $("<img />").attr("src",link)
 				    .on('load', function() {
 				        if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
-				            //alert('broken image!'); 
+				            alert('broken image!'); 
 				            
 				        } else {
-				            $(idLoad).append(img);
-				           console.log("{{$key}} ."+ idLoad );
+				            $("#img{{$key}}").append(img);
+				           //console.log("{{$key}} ."+ idLoad );
 				        }
-				    });
+				    });	
+			    });
+			   
 			  </script>
 		@endforeach
 		</div>
 		@endif
 		<script type="text/javascript">
 				$(document).ready(function() {
-				    console.log( "ready!" );
-				    // load hinh len sau 
-				    // var  img = document.getElementById('img-0');
-				    // img.setAttribute('src','');
-				    // img.setAttribute('src','http://media.bilutv.com/uploads/2017/04/150/barbie-p3-201704396.jpg');
-					
-
 				
+									
 				});
 					
 					
