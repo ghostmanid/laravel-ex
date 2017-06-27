@@ -23,20 +23,22 @@
 		  </div>
 		</div>
 		@if(isset($data))
-		<div class="row">
+		<h2>Phim</h2> 
+		<hr class="my-4">
 		@foreach($data as $key => $value)
-			
-			  <div class="col-sm-3">
-			    <div class="card" id="img{{$key}}">
-			     
-			     <!--<img class="card-img-top"  id="img-{{$key}}" src="{{$value[$key]['img']}}" alt="Card image cap" data-original="{{$value[$key]['img']}}" >-->
-			     <div class="card-block">
-			        <h3 class="card-title">{{$value[$key]['tieude']}}</h3>
-			        <p class="card-text">{{$value[$key]['label']}}</p>
-			        <a href="{{url('/')}}{{$value[$key]['url']}}" class="btn btn-primary">Xem phim</a>
+			@if($key%4==0)<div class="row"> @endif
+			 <div class="col-sm-3">
+			   <a href="{{url('/')}}{{$value[$key]['url']}}">
+			   	 <div class="text-center">
+			      <div id="img{{$key}}"></div>
+			      <span class="badge badge-success">{{$value[$key]['label']}}</span>
+			      <div class="">
+			        <h6 class="">{{$value[$key]['tieude']}}</h6>
+			        <a href="{{url('/')}}{{$value[$key]['url']}}" class="btn btn-primary btn-sm">Xem phim</a>
 			     </div>
 			    </div>
-			  </div>
+			    </a>
+			  </div> 
 			  <script type="text/javascript">
 			    $(document).ready(function(){
 			    
@@ -44,7 +46,7 @@
 			   // var idLoad = "#img{{$key}}";
 			    //console.log(idLoad);
 			    
-			  	var img = $("<img />").attr("src",link)
+			  	var img = $("<img class='card-img-to' />").attr("src",link)
 				    .on('load', function() {
 				        if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
 				            alert('broken image!'); 
@@ -57,8 +59,9 @@
 			    });
 			   
 			  </script>
+		@if($key%4==3 ) </div> <hr class="my-4">   @endif
 		@endforeach
-		</div>
+		
 		@endif
 		<script type="text/javascript">
 				$(document).ready(function() {
