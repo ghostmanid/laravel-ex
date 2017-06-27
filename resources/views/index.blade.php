@@ -3,7 +3,8 @@
 
 @section('content')
 
-	<div class="jumbotron">
+	<div class="jumbotron page-header text-left">
+		  <div class="container-fluid">
 		  <h1 class="display-3">Hello, world! </h1>
 		  <p class="lead">Xem phim ghét nhất quảng cáo.</p>
 		  <hr class="my-4">
@@ -11,20 +12,28 @@
 		  <div class="lead">
 		  	<form class="" method="POST" action="">
 		  	<input type="hidden" name="_method" value="POST"> 
-		  	 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-		  	<div class="form-group row">
-		      <div class="col-sm-10">
-		        <input type="text" class="form-control" id="inputEmail3" placeholder="Nhập tên Phim" name="tenphim">
+		  	<input type="hidden" name="_token" value="{{ csrf_token() }}">
+		  	<div class="form-group row ">
+		      <div class="col-sm-6">
+		        <input type="text" class="form-control form-control-lg" id="inputEmail3" placeholder="Nhập tên Phim" name="tenphim" >
 		      </div>
-		      <button type="submit" class="btn btn-success ">Tiến lên</button>
+		      <button type="submit" class="btn btn-lg ">Tiến lên</button>
 		    </div>
 			</form>
   		    
 		  </div>
+		  <!-- end Lead -->
+		  </div>  
+		  <!-- end container -->
+		</div>
+		<!-- end Jombotron -->
 		</div>
 		@if(isset($data))
+		<div style="background: rgb(220,220,220,0.7);  padding-top: 20px" class="container-fluid">
 		<h2>Phim</h2> 
-		<hr class="my-4">
+		<hr class="my-4">	
+		</div>
+		
 		@foreach($data as $key => $value)
 			@if($key%4==0)<div class="row"> @endif
 			 <div class="col-sm-3">

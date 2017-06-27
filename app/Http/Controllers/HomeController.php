@@ -74,27 +74,71 @@ class HomeController extends Controller
      */
     public function show($id)
     {
-        //
         //  url bilutv.com
         $url_source_q ="http://bilutv.com/";
-        $urlGet = $url_source_q."phim/".$id;
-        $client = new Client();
-        $crawler = $client->request("GET",$urlGet);
+        $nodeValues ="";
+        $nodeValues_ver2 ="";
+        $listEp="";
+        //keim tra Id 
         
-        $nodeValues  = $crawler->filter('a.btn-see ')->each(function ($node, $i){
-             $arr[$i] = $node->attr('href');
-             return $arr;
-        });
-        /* ket thuc get link xem phim */
-       
-        $crawler = $client->request("GET",$url_source_q.$nodeValues[0][0]);
+        if(!strpos($id,"_"))
+        {
+            // xu ly link  thuyet minh
+            $urlGet = $url_source_q."phim/".$id;
+            $client = new Client();
+            $crawler = $client->request("GET",$urlGet);
+            
+            $nodeValues  = $crawler->filter('a.btn-see ')->each(function ($node, $i){
+                 $arr[$i] = $node->attr('href');
+                 return $arr;
+            });
+            /* ket thuc get link xem phim */
+            $crawler = $client->request("GET",$url_source_q.$nodeValues[0][0]);
+            $nodeValues = $crawler->filter('div.left-content-player')->text();
+           
+            // lay lien ket sub hoac thuyet minh
+            $nodeValues_ver2 = $crawler->filter('div.left-content-player .choose-server a ')->each(function ($node,$i){
+            $arr[$i]['src']= $node->attr('href');
+            $arr[$i]['title'] =$node->text();
+            return $arr;
+            });
+            $listEp = $crawler->filter('div.left-content-player .details ul.list-episode a ')->each(function($node,$i){
+               $temp = explode('bilutv.com', $node->attr('href'));
+                $arr[$i] = $temp[1];
+                return $arr;
+            });
+            // lay phim bo
+            
+        }
+        else
+        {      
+            //xu ly link sub
+            $client = new Client();
+            $crawler = $client->request("GET",$url_source_q.'xem-phim/'.$id);
+            $nodeValues = $crawler->filter('div.left-content-player')->text();
+            //lay line ket sub hoac thuyet minh
+            $nodeValues_ver2 = $crawler->filter('div.left-content-player .choose-server a ')->each(function ($node,$i){
+            $arr[$i]['src']= $node->attr('href');
+            $arr[$i]['title'] =$node->text();
+            return $arr;
+            });
+            $listEp = $crawler->filter('div.left-content-player .details ul.list-episode a')->each(function($node,$i){
+                $temp = explode('bilutv.com', $node->attr('href'));
+                $arr[$i] = $temp[1];
+                return $arr;
+            });
+   
+        }  
+        // endif
         
-        $nodeValues = $crawler->filter('div.left-content-player')->text();
+               
         $string = explode(':"', $nodeValues);
         $toiCanDoanMa=  explode('",', $string[1]);
         $toiCanId = explode('"', $string[count($string)-1]);
         $data['data']['code'] =  $toiCanDoanMa[0];
         $data['data']['id'] = $toiCanId[0];
+        $data['version'] = $nodeValues_ver2 ; 
+        $data['listEp'] = $listEp;
 
        return view('xemphim',$data);
     } 

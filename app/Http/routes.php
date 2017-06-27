@@ -19,3 +19,4 @@
 Route::Resource("/","HomeController");
 
 Route::get("phim/{id}","HomeController@show");
+Route::get("xem-phim/{id}","HomeController@show");
