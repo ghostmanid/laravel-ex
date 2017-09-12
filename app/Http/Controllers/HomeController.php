@@ -19,10 +19,26 @@ class HomeController extends Controller
      */
     public function index()
     {
-            
+        //http://bilutv.com/danh-sach/phim-le.html
+            $Client =  new Client(); // khởi tạo client
+            $crawler  = $Client->request("GET","http://bilutv.com/danh-sach/phim-le.html"); // lấy thông tin search theo từ khóa 
+                       
+           $nodeValues=  $crawler->filter("div.block-film ul.list-film li ")->each(function ( $node, $i)
+            {
+                   
+                                     
+                    $arr[$i] = [
+                     "tieude"    => $node->filter("a")->attr('title'),
+                      "url"      => $node->filter("a")->attr('href'),
+                      "img"      => $node->filter("img")->attr('data-original'),                      
+                      'label'    => $node->filter("label")->text()
+                    ];
+
+                return   $arr;
+               });
+           $data['data'] = $nodeValues;
         
-        
-        return  view('index');
+        return  view('index',$data);
     }
 
     /**
@@ -43,7 +59,7 @@ class HomeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+            //
           //tìm kiếm từ khóa $q  là từ khóa
            $q = $request->get('tenphim');
            $Client =  new Client(); // khởi tạo client
@@ -131,14 +147,20 @@ class HomeController extends Controller
         }  
         // endif
         
-               
-        $string = explode(':"', $nodeValues);
-        $toiCanDoanMa=  explode('",', $string[1]);
-        $toiCanId = explode('"', $string[count($string)-1]);
-        $data['data']['code'] =  $toiCanDoanMa[0];
-        $data['data']['id'] = $toiCanId[0];
-        $data['version'] = $nodeValues_ver2 ; 
-        $data['listEp'] = $listEp;
+        
+        $string = explode('"links":', $nodeValues);
+        $stringid = explode(':"', $nodeValues);
+     //   print_r($string);
+       $toiCanDoanMa=  explode('":"', $string[3]);
+       $toiCanDoanMa = explode('","',$toiCanDoanMa[1]);
+       
+     //  print_r($toiCanDoanMa);
+         $toiCanId = explode('"', $stringid[count($stringid)-1]);
+    //   print_r($toiCanId);
+         $data['data']['code'] =  $toiCanDoanMa[0];
+         $data['data']['id'] = $toiCanId[0];
+         $data['version'] = $nodeValues_ver2 ; 
+         $data['listEp'] = $listEp;
 
        return view('xemphim',$data);
     } 
